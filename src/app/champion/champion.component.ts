@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Champion } from '../models/champion.model';
@@ -14,19 +14,23 @@ export class ChampionComponent implements OnInit {
   slug: string = '';
   loading = false;
 
-
-  constructor(private http: HttpClient, private route: ActivatedRoute, private languageService: LanguageService) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute, private languageService: LanguageService, private el: ElementRef) { }
 
   ngOnInit() {
     this.slug = this.route.snapshot.paramMap.get('slug') || '';
     this.languageService.currentLanguage.subscribe(language => {
       this.loading = true;
-      this.http.get<Champion>(`http://127.0.0.1:8003/api/${language}/` + this.slug).subscribe( (data) => {
+      this.http.get<Champion>(`http://symfony-api-riot-2025.us-east-1.elasticbeanstalk.com/api/${language}/` + this.slug).subscribe((data) => {
         this.champion = data;
         this.loading = false;
       })
     });
 
-    Fancybox.bind("[data-fancybox='video-gallery']");
+    Fancybox.bind("[data-fancybox^='video-']");
   }
+
+  toggleDescription(hability: any) {
+    hability.expanded = !hability.expanded;
+  }
+
 }

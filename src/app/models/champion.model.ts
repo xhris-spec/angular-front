@@ -3,6 +3,7 @@ export interface Ability {
   description: string;
   image: string;
   video: string;
+  expanded: boolean;
 }
 
 export interface Champion {

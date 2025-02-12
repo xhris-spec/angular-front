@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.http
-      .get<Champion[]>('http://127.0.0.1:8003/api/{locale}/champions')
+      .get<Champion[]>('http://symfony-api-riot-2025.us-east-1.elasticbeanstalk.com/api/{locale}/champions')
       .subscribe((data) => {
         this.champions = data;
         this.loading = false;
