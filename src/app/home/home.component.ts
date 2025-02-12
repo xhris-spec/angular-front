@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Champion } from '../models/champion.model';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-home',
@@ -12,15 +13,27 @@ export class HomeComponent implements OnInit {
   selectedRoles: string[] = [];
   loading = false;
   http = inject(HttpClient);
+  languageService = inject(LanguageService);
 
   ngOnInit() {
     this.loading = true;
-    this.http
-      .get<Champion[]>('http://symfony-api-riot-2025.us-east-1.elasticbeanstalk.com/api/{locale}/champions')
-      .subscribe((data) => {
-        this.champions = data;
-        this.loading = false;
+
+    this.languageService.currentLanguage.subscribe((language) => {
+      const apiUrl = `http://symfony-api-riot-2025.us-east-1.elasticbeanstalk.com/api/${language}/champions`;
+
+      console.log("Fetching champions from:", apiUrl);
+
+      this.http.get<Champion[]>(apiUrl).subscribe({
+        next: (data) => {
+          this.champions = data;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error("Error fetching champions:", error);
+          this.loading = false;
+        }
       });
+    });
   }
 
   get championsToShow() {
