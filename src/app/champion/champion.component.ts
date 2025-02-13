@@ -20,7 +20,7 @@ export class ChampionComponent implements OnInit {
     this.slug = this.route.snapshot.paramMap.get('slug') || '';
     this.languageService.currentLanguage.subscribe(language => {
       this.loading = true;
-      this.http.get<Champion>(`http://symfony-api-riot-2025.us-east-1.elasticbeanstalk.com/api/${language}/` + this.slug).subscribe((data) => {
+      this.http.get<Champion>(`https://api-riot-2025.click/api/${language}/` + this.slug).subscribe((data) => {
         this.champion = data;
         this.loading = false;
       })

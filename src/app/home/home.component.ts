@@ -19,7 +19,7 @@ export class HomeComponent implements OnInit {
     this.loading = true;
 
     this.languageService.currentLanguage.subscribe((language) => {
-      const apiUrl = `http://symfony-api-riot-2025.us-east-1.elasticbeanstalk.com/api/${language}/champions`;
+      const apiUrl = `https://api-riot-2025.click/api/${language}/champions`;
 
       console.log("Fetching champions from:", apiUrl);
 
